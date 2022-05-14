@@ -1,0 +1,19 @@
+{
+    "name": "ngit",
+    "version": "1.0.0",
+    "description": "A collection of commands to add interactivity to git in the command line.",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "ngit": "node . "
+    },
+    "author": "Thibaud Szymczak",
+    "license": "ISC",
+    "dependencies": {
+        "chalk": "^4.1.2",
+        "inquirer": "^7.3.3"
+    },
+    "devDependencies": {
+        "prettier": "^2.5.1"
+    }
+}
