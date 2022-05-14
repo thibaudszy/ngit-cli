@@ -1,5 +1,5 @@
 {
-    "name": "ngit",
+    "name": "ngit-cli",
     "version": "1.0.0",
     "description": "A collection of commands to add interactivity to git in the command line.",
     "main": "index.js",
@@ -7,8 +7,9 @@
     "scripts": {
         "ngit": "node . "
     },
+    "bin": "./index.js",
     "author": "Thibaud Szymczak",
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "chalk": "^4.1.2",
         "inquirer": "^7.3.3"
