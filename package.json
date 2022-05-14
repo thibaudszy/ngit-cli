@@ -2,6 +2,10 @@
     "name": "ngit-cli",
     "version": "1.0.1",
     "description": "A collection of commands to add interactivity to git in the command line.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/thibaudszy/ngit-cli.git"
+    },
     "main": "index.js",
     "type": "module",
     "scripts": {
