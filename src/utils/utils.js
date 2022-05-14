@@ -18,8 +18,14 @@ export const getSelectedBranches = (branchArray, selected) => {
     return branchArray.filter(({ branchname }) => selectedBranches.includes(branchname));
 };
 
-export const getUserName = async () =>
-    (await execSync('git config user.name', { encoding: 'utf-8' })).trim();
+export const getUserName = async () =>{
+    try{
+        return (await execSync('git config user.name', { encoding: 'utf-8' })).trim();
+    } catch {
+        console.log(chalk.red("Error while trying to access your git username. Please add your username in your .gitconfig file (https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup)."));
+        process.exit(1);
+    }
+}
 
 export const branchDataAsObjects = (gitBranchOutput) => {
     const branchData = gitBranchOutput
