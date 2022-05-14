@@ -37,7 +37,7 @@ After following the installation step above, you can now use the following comma
  - add
  - stash
 
-If you want to try it out without the scripts actually doing anything, you can use the ```--dry-run``` flag to log the git command the ngit script will run instead of actually running it. 
+If you want to try it out without the scripts actually doing anything, you can use the ```--ngit-dry-run``` flag to log the git command the ngit script will run instead of actually running it. 
 
 ### checkout
 Works like checkout but prints out a selectable list if no parameters are passed. 

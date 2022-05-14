@@ -7,8 +7,8 @@ let [, , command, ...args] = process.argv;
 
 const script = await import(`./src/scripts/${command}.js`);
 try {
-    const dryRun = getAndRemoveFlag(args, '--dry-run').flag;
-    args = getAndRemoveFlag(args, '--dry-run').args;
+    const dryRun = getAndRemoveFlag(args, '--ngit-dry-run').flag;
+    args = getAndRemoveFlag(args, '--ngit-dry-run').args;
 
     await script.default(args, dryRun);
 } catch (error) {
