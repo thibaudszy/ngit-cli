@@ -1,6 +1,6 @@
 {
     "name": "ngit-cli",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A collection of commands to add interactivity to git in the command line.",
     "repository": {
         "type": "git",
