@@ -4,7 +4,6 @@ import parsedGitStatus from '../utils/parsedGitStatus.js';
 import runCommand from '../utils/runCommand.js';
 
 export default async function (args, dryRun) {
-    console.clear();
     const gitStatusJson = await parsedGitStatus();
     if (gitStatusJson === null) {
         console.log('Working tree clean, nothing to commit.');
