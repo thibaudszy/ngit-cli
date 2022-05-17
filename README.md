@@ -61,4 +61,4 @@ The scripts I make here are the ones I feel I'm missing when using git through t
 
 ## Contribution and feedback
 
-Still very early days, so no contribution guide. But if you want to contribute or share some [feedback](https://www.youtube.com/watch?v=zi8ShAosqzI).
+Still very early days, so no contribution guide. But if you want to contribute or share some [feedback](https://www.youtube.com/watch?v=zi8ShAosqzI), feel free to reach out via [email](mailto:thibaud.szymczak+npm@gmail.com) or [github](https://github.com/thibaudszy/ngit-cli/discussions);
