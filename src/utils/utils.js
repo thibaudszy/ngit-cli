@@ -32,7 +32,7 @@ export const branchDataAsObjects = (gitBranchOutput) => {
         .split('\n')
         .map((refData) => refData.split('|').map((str) => str.trim()));
 
-    return branchData.map((branch) => {
+    return branchData.map((branch, index) => {
         const dataObject = Object.fromEntries(
             branch.map((param) => param.split('-->').map((str) => str.trim()))
         );
@@ -41,7 +41,7 @@ export const branchDataAsObjects = (gitBranchOutput) => {
             const branchParam = dataObject.remotename?.split('refs/heads/')[1];
             dataObject.remote = branchParam ? 'Tracked' : 'None';
         }
-        return dataObject;
+        return {...dataObject, index};
     });
 };
 
@@ -72,10 +72,11 @@ function calculateColumnsWidths(branchData) {
     }, {});
 }
 
-export const formatOptions = (dataObject, headerOffset) => {
+export const formatOptions = (dataObject, headerOffset = 0) => {
     const branchData = Object.values(dataObject);
     const headerOffsetPadding = new Array(headerOffset).fill(' ').join('');
     const header = {
+        index: 'index',
         authordate: `Created`,
         committerdate: 'Last commit',
         remote: 'Remote',
