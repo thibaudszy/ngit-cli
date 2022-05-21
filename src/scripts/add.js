@@ -35,7 +35,7 @@ export default async function (args, dryRun) {
     const selectedFiles = await inquirer.prompt({
         type: 'checkbox',
         name: 'target',
-        message: 'Choose files to stash',
+        message: 'Choose files to stage',
         choices,
         pageSize: 10,
         loop: false,
