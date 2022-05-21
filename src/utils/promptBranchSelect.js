@@ -1,8 +1,11 @@
-import { formatOptions, getBranchFromIndexedOptions, getIndexFromOption } from '../utils/utils.js';
+import { formatOptions, getBranchFromIndexedOptions } from '../utils/utils.js';
 import inquirer from 'inquirer';
 
 export async function branchSelect(options) {
-    const indexedOptions = options.map((branchData, index) => ({ ...branchData, index }));
+    const indexedOptions = options.map((branchData, index) => ({
+        ...branchData,
+        index: index.toString(),
+    }));
     const { formattedHeader, formattedChoices } = formatOptions(indexedOptions);
 
     const selection = await inquirer.prompt({
@@ -17,8 +20,11 @@ export async function branchSelect(options) {
 }
 
 export async function branchMultiSelect(options) {
-    const indexedOptions = options.map((branchData, index) => ({ ...branchData, index }));
-    const { formattedHeader, formattedChoices } = formatOptions(indexedOptions);
+    const indexedOptions = options.map((branchData, index) => ({
+        ...branchData,
+        index: index.toString(),
+    }));
+    const { formattedHeader, formattedChoices } = formatOptions(indexedOptions, 1);
 
     const selection = await inquirer.prompt({
         type: 'checkbox',

@@ -57,7 +57,6 @@ function calculateColumnsWidths(branchData) {
     /**
      *  Calculates the length of every key in the branch objects within the array of branches
      */
-
     const lengthsOfKeys = [...branchData].map((branch) => {
         const propertiesLength = {};
         for (let key in branch) {
