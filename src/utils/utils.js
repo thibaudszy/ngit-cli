@@ -11,21 +11,29 @@ export const getBranches = async ({ sort }) => {
 
     return execSync(refsGitCommand, { encoding: 'utf-8' }).trim();
 };
+
 export const getBranchFromOption = (option) => option.split('|')[3].trim();
+export const getIndexFromOption = (option) => parseInt(option.split('|')[0].trim());
+export const getBranchFromIndexedOptions = (options, selectedBranch) =>
+    options.find(({ index: branchIndex }) => branchIndex === getIndexFromOption(selectedBranch));
 
 export const getSelectedBranches = (branchArray, selected) => {
     const selectedBranches = selected.map(getBranchFromOption);
     return branchArray.filter(({ branchname }) => selectedBranches.includes(branchname));
 };
 
-export const getUserName = async () =>{
-    try{
+export const getUserName = async () => {
+    try {
         return (await execSync('git config user.name', { encoding: 'utf-8' })).trim();
     } catch {
-        console.log(chalk.red("Error while trying to access your git username. Please add your username in your .gitconfig file (https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup)."));
+        console.log(
+            chalk.red(
+                'Error while trying to access your git username. Please add your username in your .gitconfig file (https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup).'
+            )
+        );
         process.exit(1);
     }
-}
+};
 
 export const branchDataAsObjects = (gitBranchOutput) => {
     const branchData = gitBranchOutput
@@ -41,7 +49,7 @@ export const branchDataAsObjects = (gitBranchOutput) => {
             const branchParam = dataObject.remotename?.split('refs/heads/')[1];
             dataObject.remote = branchParam ? 'Tracked' : 'None';
         }
-        return {...dataObject, index};
+        return { ...dataObject, index };
     });
 };
 
@@ -76,7 +84,7 @@ export const formatOptions = (dataObject, headerOffset = 0) => {
     const branchData = Object.values(dataObject);
     const headerOffsetPadding = new Array(headerOffset).fill(' ').join('');
     const header = {
-        index: 'index',
+        index: '',
         authordate: `Created`,
         committerdate: 'Last commit',
         remote: 'Remote',
@@ -111,7 +119,7 @@ export const formatOptions = (dataObject, headerOffset = 0) => {
 };
 
 export const addColor = (paddedBranchData) => {
-    const { authordate, committerdate, remote, branchname } = paddedBranchData;
+    const { index, authordate, committerdate, remote, branchname } = paddedBranchData;
     const { yellow, red, green } = chalk;
     const remoteColor = {
         Remote: green, // for header
@@ -119,5 +127,11 @@ export const addColor = (paddedBranchData) => {
         Gone: red,
     };
     const coloredRemote = remoteColor[remote.trim()] ? remoteColor[remote.trim()](remote) : remote;
-    return [chalk.rgb(0, 179, 255)(authordate), yellow(committerdate), coloredRemote, branchname];
+    return [
+        index,
+        chalk.rgb(0, 179, 255)(authordate),
+        yellow(committerdate),
+        coloredRemote,
+        branchname,
+    ];
 };
