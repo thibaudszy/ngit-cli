@@ -85,7 +85,7 @@ export const formatOptions = (dataObject, headerOffset = 0) => {
     const headerOffsetPadding = new Array(headerOffset).fill(' ').join('');
     const header = {
         index: '',
-        authordate: `Created`,
+        authordate: 'Created',
         committerdate: 'Last commit',
         remote: 'Remote',
         branchname: 'Branch',
