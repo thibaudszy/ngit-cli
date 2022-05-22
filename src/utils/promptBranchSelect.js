@@ -1,7 +1,7 @@
 import { formatOptions, getBranchFromIndexedOptions } from '../utils/utils.js';
 import inquirer from 'inquirer';
 
-export async function branchSelect(options) {
+export async function branchSelect(options, branchNameOnly = true) {
     const indexedOptions = options.map((branchData, index) => ({
         ...branchData,
         index: index.toString(),
@@ -16,10 +16,11 @@ export async function branchSelect(options) {
         pageSize: 10,
         loop: false,
     });
-    return getBranchFromIndexedOptions(indexedOptions, selection.target).branchname;
+    const branchObject = getBranchFromIndexedOptions(indexedOptions, selection.target);
+    return branchNameOnly ? branchObject.branchname : branchObject;
 }
 
-export async function branchMultiSelect(options) {
+export async function branchMultiSelect(options, branchNameOnly = true) {
     const indexedOptions = options.map((branchData, index) => ({
         ...branchData,
         index: index.toString(),
@@ -34,8 +35,11 @@ export async function branchMultiSelect(options) {
         pageSize: 10,
         loop: false,
     });
-    const getBranchName = (selectedOption) =>
-        getBranchFromIndexedOptions(indexedOptions, selectedOption).branchname;
 
-    return selection.target.map(getBranchName);
+    const getBranch = (selectedOption) =>
+        getBranchFromIndexedOptions(indexedOptions, selectedOption);
+
+    const selectedBranches = selection.target.map(getBranch);
+
+    return branchNameOnly ? selectedBranches.map(({ branchname }) => branchname) : selectedBranches;
 }

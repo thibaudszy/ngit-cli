@@ -1,14 +1,10 @@
 import chalk from 'chalk';
-import inquirer from 'inquirer';
 import getAndRemoveFlag from '../utils/getAndRemoveFlag.js';
+import { branchMultiSelect } from '../utils/promptBranchSelect.js';
 import runCommand from '../utils/runCommand.js';
-import {
-    getBranches,
-    getUserName,
-    branchDataAsObjects,
-    formatOptions,
-    getSelectedBranches,
-} from '../utils/utils.js';
+import { getBranches, branchDataAsObjects } from '../utils/utils.js';
+
+const isMainOrMaster = (branchname) => ['master', 'main'].includes(branchname);
 
 export default async function (args, dryRun) {
     const all = getAndRemoveFlag(args, '--all', '-a').flag;
@@ -31,30 +27,12 @@ export default async function (args, dryRun) {
         console.log('No branches to delete');
         process.exit();
     }
-    const userName = await getUserName();
 
-    const options = branchData.filter(({ branchname }) => {
-        if (branchname === 'master' || branchname === 'main') {
-            return false;
-        }
-
-        return true;
-    });
-    const { formattedHeader, formattedChoices } = formatOptions(options, 1);
-
-    const selectedRef = await inquirer.prompt({
-        type: 'checkbox',
-        name: 'target',
-        message: formattedHeader,
-        choices: formattedChoices,
-        pageSize: 10,
-        loop: false,
-    });
-
-    const branchesToDelete = getSelectedBranches(options, selectedRef.target);
+    const options = branchData.filter(({ branchname }) => !isMainOrMaster(branchname));
+    const branchesToDelete = await branchMultiSelect(options, false);
 
     // sanity check
-    if (branchesToDelete.includes('master') || branchesToDelete.includes('main')) {
+    if (branchesToDelete.some(isMainOrMaster)) {
         console.error('master or main branches in branches to delete.');
         process.exit(1);
     }
@@ -94,6 +72,8 @@ export default async function (args, dryRun) {
         }
         result.handleDeleteResponse(branchname, localDelete, remoteDelete);
     };
+
+    console.log(branchesToDelete);
 
     await Promise.all(branchesToDelete.map((branch) => deleteBranch(branch, all)));
 
