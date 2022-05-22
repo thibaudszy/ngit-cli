@@ -13,6 +13,6 @@ try {
 
     await script.default(args, dryRun);
 } catch (error) {
-    console.log(error);
+    console.log(error.stderr);
     console.log(chalk.bgRed('Exited with error'));
 }

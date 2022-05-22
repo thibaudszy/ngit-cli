@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import inquirer from 'inquirer';
 import getAndRemoveFlag from '../utils/getAndRemoveFlag.js';
 import runCommand from '../utils/runCommand.js';
@@ -12,8 +13,15 @@ import {
 export default async function (args, dryRun) {
     const all = getAndRemoveFlag(args, '--all', '-a').flag;
     const onlyGone = getAndRemoveFlag(args, '--gone', '-g').flag;
-
-    await runCommand('git remote prune origin', dryRun);
+    try {
+        await runCommand('git remote prune origin', dryRun);
+    } catch {
+        console.log(
+            chalk.redBright(
+                'Could not prune origin. Some of the tracking info might not be up to date.'
+            )
+        );
+    }
     const refs = await getBranches({ sort: '-committerdate' });
     let branchData = branchDataAsObjects(refs);
     if (onlyGone) {
