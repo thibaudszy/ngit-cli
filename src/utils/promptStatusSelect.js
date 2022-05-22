@@ -1,9 +1,8 @@
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import parsedGitStatus from '../utils/parsedGitStatus.js';
-import runCommand from '../utils/runCommand.js';
 
-export default async function (args, dryRun) {
+export default async function () {
     const gitStatusJson = await parsedGitStatus();
     if (gitStatusJson === null) {
         console.log('Working tree clean, nothing to commit.');
@@ -22,6 +21,9 @@ export default async function (args, dryRun) {
     const untrackedFiles = gitStatusJson.filter(({ index }) => index === 'untracked').map(getFile);
 
     const choices = [
+        new inquirer.Separator('Staged files: -----'),
+        ...stagedFiles,
+        new inquirer.Separator('Tracked files: -----'),
         ...trackedFiles,
         new inquirer.Separator('Untracked files: -----'),
         ...untrackedFiles,
@@ -34,11 +36,11 @@ export default async function (args, dryRun) {
     const selectedFiles = await inquirer.prompt({
         type: 'checkbox',
         name: 'target',
-        message: 'Choose files to stage',
+        message: 'Choose files to copy to your clipboard',
         choices,
         pageSize: 10,
         loop: false,
     });
 
-    await runCommand(`git add ${args.join(' ')} ${selectedFiles.target.join(' ')}`, dryRun);
+    return selectedFiles.target;
 }
