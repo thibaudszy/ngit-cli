@@ -13,9 +13,10 @@ export const getBranches = async ({ sort }) => {
 };
 
 export const getBranchFromOption = (option) => option.split('|')[3].trim();
-export const getIndexFromOption = (option) => parseInt(option.split('|')[0].trim());
-export const getBranchFromIndexedOptions = (options, selectedBranch) =>
-    options.find(({ index: branchIndex }) => branchIndex === getIndexFromOption(selectedBranch));
+export const getIndexFromOption = (option) => option.split('|')[0].trim();
+export const getBranchFromIndexedOptions = (options, selectedBranch) => {
+    return options.find(({ index }) => index === getIndexFromOption(selectedBranch));
+};
 
 export const getSelectedBranches = (branchArray, selected) => {
     const selectedBranches = selected.map(getBranchFromOption);
