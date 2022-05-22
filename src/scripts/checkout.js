@@ -1,16 +1,7 @@
-import inquirer from 'inquirer';
-import { execSync } from 'child_process';
 import getAndRemoveFlag from '../utils/getAndRemoveFlag.js';
+import { branchSelect } from '../utils/promptBranchSelect.js';
 import runCommand from '../utils/runCommand.js';
-import {
-    getBranches,
-    getUserName,
-    formatOptions,
-    addColor,
-    branchDataAsObjects,
-    getBranchFromOption,
-} from '../utils/utils.js';
-import chalk from 'chalk';
+import { getBranches, branchDataAsObjects } from '../utils/utils.js';
 
 export default async function (args, dryRun) {
     // Mutating the arguments to evaluate what needs to be passed down to the git command
@@ -28,7 +19,6 @@ export default async function (args, dryRun) {
 
     const refs = await getBranches({ sort: '-committerdate' });
     const branchData = branchDataAsObjects(refs);
-    const userName = await getUserName();
 
     const options = branchData.filter(({ branchname }) => {
         if (!onlyUserBranches) return true;
@@ -38,16 +28,7 @@ export default async function (args, dryRun) {
 
         return true;
     });
-    const { formattedHeader, formattedChoices } = formatOptions(options);
+    const selection = await branchSelect(options);
 
-    const selectedRef = await inquirer.prompt({
-        type: 'list',
-        name: 'target',
-        message: formattedHeader,
-        choices: formattedChoices,
-        pageSize: 10,
-        loop: false,
-    });
-
-    await runCommand(`git checkout ${getBranchFromOption(selectedRef.target)}`, dryRun);
+    await runCommand(`git checkout ${selection}`, dryRun);
 }
