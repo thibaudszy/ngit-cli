@@ -34,7 +34,6 @@ export async function branchMultiSelect(options) {
         pageSize: 10,
         loop: false,
     });
-    console.log(indexedOptions);
     const getBranchName = (selectedOption) =>
         getBranchFromIndexedOptions(indexedOptions, selectedOption).branchname;
 
