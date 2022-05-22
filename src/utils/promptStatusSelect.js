@@ -6,7 +6,7 @@ export default async function () {
     const gitStatusJson = await parsedGitStatus();
     if (gitStatusJson === null) {
         console.log('Working tree clean, nothing to commit.');
-        return;
+        process.exit();
     }
     const isModified = (gitState) => gitState !== 'unmodified';
     const getFile = (gitFileState) => gitFileState.file;
