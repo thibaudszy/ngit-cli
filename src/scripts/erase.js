@@ -73,8 +73,6 @@ export default async function (args, dryRun) {
         result.handleDeleteResponse(branchname, localDelete, remoteDelete);
     };
 
-    console.log(branchesToDelete);
-
     await Promise.all(branchesToDelete.map((branch) => deleteBranch(branch, all)));
 
     console.table(result.statuses);
