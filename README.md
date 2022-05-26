@@ -26,7 +26,7 @@ Branches are sorted by the date of the last commit.
 
 ### erase
 
-Shows a selectable list of branches can delete. By default, it only deletes local branches but you can pass the `--all` or `-a` flag to also delete the branch(es) in the remote. This list is a multiselect, which allows deleting multiple branches at once.
+Shows a selectable list of branches you can delete. By default, it only deletes local branches but you can pass the `--all` or `-a` flag to also delete the branch(es) in the remote. This list is a multiselect, which allows deleting multiple branches at once.
 
 ![ngit erase](https://i.imgur.com/OIycm9j.png)
 
@@ -54,6 +54,14 @@ Differs from the usual `git stash` command as no passing any arguments will prin
 Similar to `ngit stash`. Will print out a selectable list of files to stage.
 
 ![ngit add](https://i.imgur.com/ol6s6Bj.png)
+
+### select-branch
+
+Prints out a multi-select list of branches to copy to you clipboard. This allows to select a branch and then paste it in another git command.
+
+### select-status
+
+Similar to select-branch but with files in the working tree. Select the branches you want to copy to your clipboard and paste them in another git command.
 
 ## To do
 
