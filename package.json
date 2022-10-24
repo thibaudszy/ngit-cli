@@ -22,7 +22,7 @@
     "dependencies": {
         "chalk": "^4.1.2",
         "clipboardy": "^3.0.0",
-        "inquirer": "^7.3.3"
+        "inquirer": "^9.1.4"
     },
     "devDependencies": {
         "prettier": "^2.5.1"
