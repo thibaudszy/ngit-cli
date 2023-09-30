@@ -21,8 +21,8 @@ process.stdin.setRawMode(true);
 // Resume standard input to start receiving "data" events.
 process.stdin.resume();
 
-// --------------------------------------
-// --------------------------------------
+// -------------------------------------
+// -------------------------------------
 
 let [, , command, ...args] = process.argv;
 
