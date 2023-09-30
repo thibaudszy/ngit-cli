@@ -1,0 +1,21 @@
+{
+    "env": {
+        "node": true,
+        "es2022": true
+    },
+    "extends": ["eslint:recommended", "plugin:node/recommended"],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": ["node"],
+    "rules": {
+        "node/no-unpublished-require": "off",
+        "no-process-exit": "off",
+        "node/no-unsupported-features/es-syntax": [
+            "error",
+            {
+                "ignores": ["modules"]
+            }
+        ]
+    }
+}

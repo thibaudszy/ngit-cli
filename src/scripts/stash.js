@@ -1,4 +1,3 @@
-import { execSync } from 'child_process';
 import inquirer from 'inquirer';
 import parsedGitStatus from '../utils/parsedGitStatus.js';
 import runCommand from '../utils/runCommand.js';

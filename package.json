@@ -11,6 +11,9 @@
     "scripts": {
         "ngit": "node . "
     },
+    "engines": {
+        "node": ">18.0.0"
+    },
     "bin": "./index.js",
     "author": "Thibaud Szymczak",
     "license": "MIT",
@@ -25,6 +28,11 @@
         "inquirer": "^9.1.4"
     },
     "devDependencies": {
+        "@babel/core": "^7.23.0",
+        "@babel/eslint-parser": "^7.22.15",
+        "@babel/preset-env": "^7.22.20",
+        "eslint": "^8.50.0",
+        "eslint-plugin-node": "^11.1.0",
         "prettier": "^2.5.1"
     }
 }

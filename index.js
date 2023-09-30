@@ -1,5 +1,5 @@
-#! /usr/bin/env node
-
+#!/usr/bin/env node
+/* eslint-disable -- eslint can't parse top level imports yet */
 import chalk from 'chalk';
 import getAndRemoveFlag from './src/utils/getAndRemoveFlag.js';
 
