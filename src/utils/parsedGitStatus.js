@@ -14,7 +14,7 @@ export default async function () {
         '?': 'untracked',
     };
 
-    const gitStatus = await execSync('git status --porcelain', { encoding: 'utf-8' });
+    const gitStatus = execSync('git status --porcelain', { encoding: 'utf-8' });
     if (!gitStatus) return null;
     // The last element of the array is an empty string
     const gitStatusArray = gitStatus.split('\n');

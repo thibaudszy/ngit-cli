@@ -7,6 +7,6 @@ export default async function (command, dryRun) {
     if (dryRun) {
         console.log(fullCommand);
     } else {
-        await execSync(fullCommand, { encoding: 'utf-8' });
+        execSync(fullCommand, { encoding: 'utf-8' });
     }
 }
