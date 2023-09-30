@@ -1,6 +1,5 @@
 import { execSync } from 'child_process';
 
-// hello
 export default async function () {
     const states = {
         ' ': 'unmodified',
