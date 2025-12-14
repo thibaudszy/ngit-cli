@@ -1,6 +1,7 @@
 import getAndRemoveFlag from '../utils/getAndRemoveFlag.js';
 import { branchSelect } from '../utils/promptBranchSelect.js';
 import runCommand from '../utils/runCommand.js';
+import { shellEscape, shellEscapeArgs } from '../utils/shellEscape.js';
 import { getBranches, branchDataAsObjects } from '../utils/utils.js';
 
 export default async function (args, dryRun) {
@@ -10,7 +11,7 @@ export default async function (args, dryRun) {
 
     if (args?.length > 0) {
         try {
-            await runCommand(`git checkout ${args.join(' ')}`, dryRun);
+            await runCommand(`git checkout ${shellEscapeArgs(args)}`, dryRun);
             process.exit();
         } catch {
             process.exit(1);
@@ -30,5 +31,5 @@ export default async function (args, dryRun) {
     });
     const selection = await branchSelect(options);
 
-    await runCommand(`git checkout ${selection}`, dryRun);
+    await runCommand(`git checkout ${shellEscape(selection)}`, dryRun);
 }

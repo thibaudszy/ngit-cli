@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import parsedGitStatus from '../utils/parsedGitStatus.js';
 import runCommand from '../utils/runCommand.js';
+import { shellEscape, shellEscapeArgs } from '../utils/shellEscape.js';
 
 export default async function (args, dryRun) {
     const gitStatusJson = await parsedGitStatus();
@@ -40,5 +41,7 @@ export default async function (args, dryRun) {
         loop: false,
     });
 
-    await runCommand(`git add ${args.join(' ')} ${selectedFiles.target.join(' ')}`, dryRun);
+    const escapedArgs = args.length > 0 ? shellEscapeArgs(args) + ' ' : '';
+    const escapedFiles = shellEscapeArgs(selectedFiles.target);
+    await runCommand(`git add ${escapedArgs}${escapedFiles}`, dryRun);
 }

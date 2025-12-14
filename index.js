@@ -51,11 +51,17 @@ async function selectCommand() {
     return selected;
 }
 
-try {
-    if (!command) {
-        command = await selectCommand();
-    }
+const validCommands = commands.map(c => c.name);
 
+if (!command) {
+    command = await selectCommand();
+} else if (!validCommands.includes(command)) {
+    console.log(chalk.bgRed(`Unknown command: ${command}`));
+    console.log('Available commands:', validCommands.join(', '));
+    process.exit(1);
+}
+
+try {
     const script = await import(`./src/scripts/${command}.js`);
     console.clear();
     const dryRun = getAndRemoveFlag(args, '--ngit-dry-run').flag;
@@ -63,10 +69,5 @@ try {
 
     await script.default(args, dryRun);
 } catch (error) {
-    if (error.code === 'ERR_MODULE_NOT_FOUND') {
-        console.log(chalk.bgRed(`Unknown command: ${command}`));
-        console.log('Available commands:', commands.map(c => c.name).join(', '));
-    } else {
-        console.log(chalk.bgRed('Exited with error'), error.stderr || error.message || error);
-    }
+    console.log(chalk.bgRed('Exited with error'), error.stderr || error.message || error);
 }

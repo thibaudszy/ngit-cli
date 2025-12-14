@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import parsedGitStatus from '../utils/parsedGitStatus.js';
 import runCommand from '../utils/runCommand.js';
+import { shellEscapeArgs } from '../utils/shellEscape.js';
 
 export default async function (args, dryRun) {
     const gitStatusJson = await parsedGitStatus();
@@ -34,7 +35,8 @@ export default async function (args, dryRun) {
         });
 
         if (stashAll) {
-            await runCommand(`git stash push ${args.join(' ')}`, dryRun);
+            const escapedArgs = args.length > 0 ? ' ' + shellEscapeArgs(args) : '';
+            await runCommand(`git stash push${escapedArgs}`, dryRun);
             return;
         }
     }
@@ -80,5 +82,7 @@ export default async function (args, dryRun) {
         return;
     }
 
-    await runCommand(`git stash push ${args.join(' ')} -- ${selectedFiles.target.join(' ')}`, dryRun);
+    const escapedArgs = args.length > 0 ? shellEscapeArgs(args) + ' ' : '';
+    const escapedFiles = shellEscapeArgs(selectedFiles.target);
+    await runCommand(`git stash push ${escapedArgs}-- ${escapedFiles}`, dryRun);
 }

@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import { branchSelect } from '../utils/promptBranchSelect.js';
 import runCommand from '../utils/runCommand.js';
+import { shellEscape, shellEscapeArgs } from '../utils/shellEscape.js';
 import { getBranches, branchDataAsObjects } from '../utils/utils.js';
 
 function getCurrentBranch() {
@@ -11,7 +12,7 @@ export default async function (args, dryRun) {
     // If args provided, pass through to git rebase
     if (args?.length > 0) {
         try {
-            await runCommand(`git rebase ${args.join(' ')}`, dryRun);
+            await runCommand(`git rebase ${shellEscapeArgs(args)}`, dryRun);
             process.exit();
         } catch {
             process.exit(1);
@@ -31,5 +32,5 @@ export default async function (args, dryRun) {
 
     const selection = await branchSelect(branchData);
 
-    await runCommand(`git rebase ${selection}`, dryRun);
+    await runCommand(`git rebase ${shellEscape(selection)}`, dryRun);
 }

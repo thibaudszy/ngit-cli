@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import getAndRemoveFlag from '../utils/getAndRemoveFlag.js';
 import { branchMultiSelect } from '../utils/promptBranchSelect.js';
 import runCommand from '../utils/runCommand.js';
+import { shellEscape } from '../utils/shellEscape.js';
 import { getBranches, branchDataAsObjects } from '../utils/utils.js';
 
 const isMainOrMaster = (branchname) => ['master', 'main'].includes(branchname);
@@ -60,7 +61,7 @@ export default async function (args, dryRun) {
         const { branchname, remote } = branchObject;
         let localDelete;
         try {
-            await runCommand(`git branch -D ${branchname}`, dryRun);
+            await runCommand(`git branch -D ${shellEscape(branchname)}`, dryRun);
             localDelete = 'success';
         } catch (e) {
             localDelete = e.stderr?.split('\n')[0] || e.message || 'Unknown error';
@@ -68,7 +69,7 @@ export default async function (args, dryRun) {
         let remoteDelete;
         if (all && remote === 'Tracked') {
             try {
-                await runCommand(`git push origin --delete ${branchname};`, dryRun);
+                await runCommand(`git push origin --delete ${shellEscape(branchname)}`, dryRun);
                 remoteDelete = 'success';
             } catch (e) {
                 remoteDelete = e.stderr?.split('\n')[0] || e.message || 'Unknown error';
