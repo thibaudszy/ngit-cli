@@ -9,7 +9,8 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "ngit": "node . "
+        "ngit": "node . ",
+        "test": "node --test src/**/*.test.js"
     },
     "engines": {
         "node": ">18.0.0"
