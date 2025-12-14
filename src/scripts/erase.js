@@ -29,6 +29,10 @@ export default async function (args, dryRun) {
     }
 
     const options = branchData.filter(({ branchname }) => !isMainOrMaster(branchname));
+    if (options.length === 0) {
+        console.log('No branches available to delete (main/master branches are protected).');
+        process.exit();
+    }
     const branchesToDelete = await branchMultiSelect(options, false);
 
     // sanity check
