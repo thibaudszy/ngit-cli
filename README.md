@@ -4,7 +4,7 @@
 
 Enhance the usage of git in the command line. In general this is achieved by providing a list of options when not giving the required arguments to git commands. The scripts in this repo do not aim to do anything that can be achieved through git aliases.
 
-Scripts that replace git commands ( such as `checkout` ) attempt to act like _superset_ commands, meaning that the `checkout` command can be used as the git equivalent. This is still not the case for all commands though.
+Scripts that replace git commands (such as `checkout`) attempt to act like _superset_ commands, meaning that the `checkout` command can be used as the git equivalent. This is still not the case for all commands though.
 
 ## Install
 
@@ -15,6 +15,23 @@ Run:
 in your terminal to install the package globally. You can then use the program using the `ngit-cli` in the terminal. As this can be a bit verbose, it is recommended to [create an alias](https://linuxhint.com/configure-use-aliases-zsh/) for it, such as `ngit`.
 
 You will then be able to use the `ngit` command similarly to git for the supported commands (see below) in any repo.
+
+## Usage
+
+Running `ngit` without any arguments will display an interactive menu to select a command:
+
+```
+? Select a command
+❯ add - Stage files interactively
+  checkout - Switch branches interactively
+  erase - Delete branches interactively
+  rebase - Rebase onto a branch interactively
+  stash - Stash changes interactively
+  select-branch - Copy branch names to clipboard
+  select-status - Copy file names to clipboard
+```
+
+## Commands
 
 ### checkout
 
@@ -39,11 +56,19 @@ Branches are sorted by the creation date of the branch.
 
 **Warning**: currently the script can't erase the remote branch if it has a different name than the local branch
 
+### rebase
+
+Shows a selectable list of branches to rebase the current branch onto. The current branch is excluded from the list.
+
+Branches are sorted by the date of the last commit.
+
 ### stash
 
-Differs from the usual `git stash` command as no passing any arguments will print out the modified files (`git status`). You can then select the files that you want to stash.
+Differs from the usual `git stash` command as not passing any arguments will print out the modified files (`git status`). You can then select the files that you want to stash.
 
 ![ngit stash](https://i.imgur.com/7GEW77X.png)
+
+**Note:** Renamed/copied files cannot be selectively stashed due to git limitations. When renames are detected, you will be prompted to stash all changes instead.
 
 #### Flags
 
@@ -65,12 +90,12 @@ Similar to select-branch but with files in the working tree. Select the branches
 
 ## To do
 
-I plan on adding more commands such as :
+I plan on adding more commands such as:
 
 -   restore
 -   cherry-pick
 
-The scripts I make here are the ones I feel I'm missing when using git through the cli.
+The scripts I make here are the ones I feel I'm missing when using git through the CLI.
 
 ## Contribution and feedback
 
