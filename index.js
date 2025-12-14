@@ -29,6 +29,7 @@ const commands = [
     { name: 'add', description: 'Stage files interactively' },
     { name: 'checkout', description: 'Switch branches interactively' },
     { name: 'erase', description: 'Delete branches interactively' },
+    { name: 'rebase', description: 'Rebase onto a branch interactively' },
     { name: 'stash', description: 'Stash changes interactively' },
     { name: 'select-branch', description: 'Copy branch names to clipboard' },
     { name: 'select-status', description: 'Copy file names to clipboard' },
