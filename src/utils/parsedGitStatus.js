@@ -18,9 +18,20 @@ export default async function () {
     // The last element of the array is an empty string
     const gitStatusArray = gitStatus.split('\n');
     gitStatusArray.pop();
-    return gitStatusArray.map((fileStatus) => ({
-        index: states[fileStatus[0]],
-        workingTree: states[fileStatus[1]],
-        file: fileStatus.slice(3),
-    }));
+    return gitStatusArray.map((fileStatus) => {
+        const index = states[fileStatus[0]];
+        const workingTree = states[fileStatus[1]];
+        let file = fileStatus.slice(3);
+
+        // For renamed/copied files, format is "old_name -> new_name"
+        // Extract the new name for use in git commands
+        if (index === 'renamed' || index === 'copied') {
+            const arrowIndex = file.indexOf(' -> ');
+            if (arrowIndex !== -1) {
+                file = file.slice(arrowIndex + 4);
+            }
+        }
+
+        return { index, workingTree, file };
+    });
 }
