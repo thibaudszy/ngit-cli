@@ -14,7 +14,7 @@ describe('parseGitStatusOutput', () => {
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'unmodified', workingTree: 'modified', file: 'src/file.js' },
+            { index: 'unmodified', workingTree: 'modified', file: 'src/file.js', renamedFrom: null },
         ]);
     });
 
@@ -23,7 +23,7 @@ describe('parseGitStatusOutput', () => {
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'modified', workingTree: 'unmodified', file: 'src/file.js' },
+            { index: 'modified', workingTree: 'unmodified', file: 'src/file.js', renamedFrom: null },
         ]);
     });
 
@@ -32,7 +32,7 @@ describe('parseGitStatusOutput', () => {
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'untracked', workingTree: 'untracked', file: 'new-file.js' },
+            { index: 'untracked', workingTree: 'untracked', file: 'new-file.js', renamedFrom: null },
         ]);
     });
 
@@ -41,7 +41,7 @@ describe('parseGitStatusOutput', () => {
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'added', workingTree: 'unmodified', file: 'src/new.js' },
+            { index: 'added', workingTree: 'unmodified', file: 'src/new.js', renamedFrom: null },
         ]);
     });
 
@@ -50,25 +50,25 @@ describe('parseGitStatusOutput', () => {
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'unmodified', workingTree: 'deleted', file: 'old-file.js' },
+            { index: 'unmodified', workingTree: 'deleted', file: 'old-file.js', renamedFrom: null },
         ]);
     });
 
-    it('parses renamed files and extracts new name', () => {
+    it('parses renamed files with both old and new names', () => {
         const input = 'R  old-name.js -> new-name.js\n';
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'renamed', workingTree: 'unmodified', file: 'new-name.js' },
+            { index: 'renamed', workingTree: 'unmodified', file: 'new-name.js', renamedFrom: 'old-name.js' },
         ]);
     });
 
-    it('parses copied files and extracts new name', () => {
+    it('parses copied files with both original and copy names', () => {
         const input = 'C  original.js -> copy.js\n';
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'copied', workingTree: 'unmodified', file: 'copy.js' },
+            { index: 'copied', workingTree: 'unmodified', file: 'copy.js', renamedFrom: 'original.js' },
         ]);
     });
 
@@ -77,7 +77,7 @@ describe('parseGitStatusOutput', () => {
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'renamed', workingTree: 'unmodified', file: 'src/new/path.js' },
+            { index: 'renamed', workingTree: 'unmodified', file: 'src/new/path.js', renamedFrom: 'src/old/path.js' },
         ]);
     });
 
@@ -86,10 +86,10 @@ describe('parseGitStatusOutput', () => {
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'modified', workingTree: 'unmodified', file: 'staged.js' },
-            { index: 'unmodified', workingTree: 'modified', file: 'modified.js' },
-            { index: 'untracked', workingTree: 'untracked', file: 'untracked.js' },
-            { index: 'renamed', workingTree: 'unmodified', file: 'new.js' },
+            { index: 'modified', workingTree: 'unmodified', file: 'staged.js', renamedFrom: null },
+            { index: 'unmodified', workingTree: 'modified', file: 'modified.js', renamedFrom: null },
+            { index: 'untracked', workingTree: 'untracked', file: 'untracked.js', renamedFrom: null },
+            { index: 'renamed', workingTree: 'unmodified', file: 'new.js', renamedFrom: 'old.js' },
         ]);
     });
 
@@ -98,7 +98,7 @@ describe('parseGitStatusOutput', () => {
         const result = parseGitStatusOutput(input);
 
         assert.deepStrictEqual(result, [
-            { index: 'unmodified', workingTree: 'modified', file: 'path/to/file with spaces.js' },
+            { index: 'unmodified', workingTree: 'modified', file: 'path/to/file with spaces.js', renamedFrom: null },
         ]);
     });
 });

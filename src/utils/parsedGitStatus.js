@@ -21,17 +21,19 @@ export function parseGitStatusOutput(gitStatus) {
         const index = states[fileStatus[0]];
         const workingTree = states[fileStatus[1]];
         let file = fileStatus.slice(3);
+        let renamedFrom = null;
 
         // For renamed/copied files, format is "old_name -> new_name"
-        // Extract the new name for use in git commands
+        // Extract both names - old name needed for stash, new name for other commands
         if (index === 'renamed' || index === 'copied') {
             const arrowIndex = file.indexOf(' -> ');
             if (arrowIndex !== -1) {
+                renamedFrom = file.slice(0, arrowIndex);
                 file = file.slice(arrowIndex + 4);
             }
         }
 
-        return { index, workingTree, file };
+        return { index, workingTree, file, renamedFrom };
     });
 }
 

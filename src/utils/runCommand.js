@@ -1,12 +1,14 @@
 import { execSync } from 'child_process';
 
-const goToGitRootCommand = 'cd $(git rev-parse --show-toplevel)';
+function getGitRoot() {
+    return execSync('git rev-parse --show-toplevel', { encoding: 'utf-8' }).trim();
+}
 
 export default async function (command, dryRun) {
-    const fullCommand = `${goToGitRootCommand} && ${command}`;
+    const gitRoot = getGitRoot();
     if (dryRun) {
-        console.log(fullCommand);
+        console.log(`[cwd: ${gitRoot}] ${command}`);
     } else {
-        execSync(fullCommand, { encoding: 'utf-8' });
+        execSync(command, { encoding: 'utf-8', cwd: gitRoot });
     }
 }
