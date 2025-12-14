@@ -1,7 +1,12 @@
+import { execSync } from 'child_process';
 import getAndRemoveFlag from '../utils/getAndRemoveFlag.js';
 import { branchSelect } from '../utils/promptBranchSelect.js';
 import runCommand from '../utils/runCommand.js';
 import { getBranches, branchDataAsObjects } from '../utils/utils.js';
+
+function getCurrentBranch() {
+    return execSync('git branch --show-current', { encoding: 'utf-8' }).trim();
+}
 
 export default async function (args, dryRun) {
     const interactive = getAndRemoveFlag(args, '--interactive', '-i').flag;
@@ -18,11 +23,14 @@ export default async function (args, dryRun) {
         }
     }
 
+    const currentBranch = getCurrentBranch();
     const refs = await getBranches({ sort: '-committerdate' });
-    const branchData = branchDataAsObjects(refs);
+    const branchData = branchDataAsObjects(refs).filter(
+        ({ branchname }) => branchname !== currentBranch
+    );
 
     if (branchData.length === 0) {
-        console.log('No branches available.');
+        console.log('No other branches available to rebase onto.');
         process.exit();
     }
 
