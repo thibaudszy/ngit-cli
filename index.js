@@ -26,13 +26,18 @@ process.stdin.resume();
 
 let [, , command, ...args] = process.argv;
 
-const script = await import(`./src/scripts/${command}.js`);
 try {
+    const script = await import(`./src/scripts/${command}.js`);
     console.clear();
     const dryRun = getAndRemoveFlag(args, '--ngit-dry-run').flag;
     args = getAndRemoveFlag(args, '--ngit-dry-run').args;
 
     await script.default(args, dryRun);
 } catch (error) {
-    console.log(chalk.bgRed('Exited with error'), error.stderr);
+    if (error.code === 'ERR_MODULE_NOT_FOUND') {
+        console.log(chalk.bgRed(`Unknown command: ${command}`));
+        console.log('Available commands: add, checkout, erase, stash, select-branch, select-status');
+    } else {
+        console.log(chalk.bgRed('Exited with error'), error.stderr || error.message || error);
+    }
 }

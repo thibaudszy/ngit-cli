@@ -59,7 +59,7 @@ export default async function (args, dryRun) {
             await runCommand(`git branch -D ${branchname}`, dryRun);
             localDelete = 'success';
         } catch (e) {
-            localDelete = e.stderr.split('\n')[0];
+            localDelete = e.stderr?.split('\n')[0] || e.message || 'Unknown error';
         }
         let remoteDelete;
         if (all && remote === 'Tracked') {
@@ -67,7 +67,7 @@ export default async function (args, dryRun) {
                 await runCommand(`git push origin --delete ${branchname};`, dryRun);
                 remoteDelete = 'success';
             } catch (e) {
-                remoteDelete = e.stderr.split('\n')[0];
+                remoteDelete = e.stderr?.split('\n')[0] || e.message || 'Unknown error';
             }
         }
         result.handleDeleteResponse(branchname, localDelete, remoteDelete);
